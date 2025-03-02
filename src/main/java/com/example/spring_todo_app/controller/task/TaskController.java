@@ -1,27 +1,20 @@
 package com.example.spring_todo_app.controller.task;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.spring_todo_app.service.task.TaskService;
+
 @Controller
 public class TaskController {
+
+    private final TaskService taskService = new TaskService();
+
     @GetMapping("/tasks")
     public String list(Model model) {
-        var task1 = new TaskDto(
-                1L,
-                "Spring Bootを学ぶ",
-                "TODO アプリケーションを作ってみる",
-                "対応中");
-        var task2 = new TaskDto(
-                2L,
-                "Spring Securityを学ぶ",
-                "TODO アプリケーションを作ってみる",
-                "対応中");
-        var taskList = List.of(task1, task2);
-        model.addAttribute("taskList", taskList);
+
+        model.addAttribute("taskList", taskService.find());
         return "task/list";
     }
 }
