@@ -13,8 +13,14 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public String list(Model model) {
+        // List<TaskEntity> → List<TaskDto>
+        var taskList = taskService.find()
+                .stream()
+                .map(TaskDto::toDto) // メソッド参照
+                // .map(entity -> TaskDto.toDto(entity))
+                .toList();
 
-        model.addAttribute("taskList", taskService.find());
+        model.addAttribute("taskList", taskList);
         return "task/list";
     }
 }
